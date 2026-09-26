@@ -46,33 +46,27 @@
 
   /* Main layout */
   .page {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 48px 20px;
+    padding: 40px 20px 48px;
   }
 
-  /* Logo / wordmark */
-  .wordmark {
-    text-align: center;
-    margin-bottom: 36px;
+  /* Site name, top-left */
+  .site-header {
+    padding: 20px 32px;
+    border-bottom: 2px solid var(--line-soft);
+    background: var(--surface);
   }
 
-  .wordmark-eyebrow {
-    font-size: 1rem;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-
-  .wordmark-title {
-    font-size: clamp(2.25rem, 6vw, 4rem);
+  .brand {
+    font-size: clamp(1.375rem, 2.6vw, 1.75rem);
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.2;
     color: var(--ink);
   }
 
-  .wordmark-title span { color: var(--blue); }
+  .brand span { color: var(--blue); }
 
   /* Today's date and the next awareness day share the same big size */
   .clock {
@@ -429,7 +423,8 @@
 
   /* Phones */
   @media (max-width: 480px) {
-    .page { padding: 32px 16px; }
+    .page { padding: 28px 16px 40px; }
+    .site-header { padding: 16px; }
     .next { padding: 22px 16px; border-left-width: 8px; }
     .card { padding: 26px 18px; }
     .cal { padding: 20px 12px; }
@@ -442,11 +437,11 @@
 </head>
 <body>
 
-<div class="page">
+<header class="site-header">
+  <h1 class="brand">Disability <span>Inclusion</span> Calendar</h1>
+</header>
 
-  <div class="wordmark">
-    <div class="wordmark-title">Disability<br><span>Inclusion</span> Calendar</div>
-  </div>
+<div class="page">
 
   <div class="clock" role="group" aria-label="Today">
     <time class="clock-date" id="clock-date">&nbsp;</time>
