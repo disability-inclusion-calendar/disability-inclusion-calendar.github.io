@@ -290,6 +290,8 @@
     min-height: 88px;
   }
 
+  .cal-detail[hidden] { display: none; }
+
   .cal-detail-date {
     font-size: 1rem;
     font-weight: 700;
@@ -602,22 +604,17 @@
 
   function renderDetail() {
     detailEl.innerHTML = "";
-    detailEl.appendChild(el("div", "cal-detail-date", longDate(selected) + (sameDay(selected, today) ? " · Today" : "")));
     var evs = eventsOn(selected);
-    if (evs.length) {
-      evs.forEach(function (e) {
-        var box = el("div", "cal-event");
-        box.appendChild(el("div", "cal-event-name", e.name));
-        box.appendChild(el("div", "cal-event-note", e.note));
-        detailEl.appendChild(box);
-      });
-    } else {
-      var next = upcoming(new Date(selected.getFullYear(), selected.getMonth(), selected.getDate() + 1), 1)[0];
-      var p = el("p", "cal-empty", "No awareness days on this date. Next up: ");
-      p.appendChild(el("strong", null, next.name));
-      p.appendChild(document.createTextNode(", " + next.date.getDate() + " " + MONTH_NAMES[next.date.getMonth()] + "."));
-      detailEl.appendChild(p);
-    }
+    // Only show this panel when the selected day is an awareness day
+    detailEl.hidden = evs.length === 0;
+    if (!evs.length) return;
+    detailEl.appendChild(el("div", "cal-detail-date", longDate(selected)));
+    evs.forEach(function (e) {
+      var box = el("div", "cal-event");
+      box.appendChild(el("div", "cal-event-name", e.name));
+      box.appendChild(el("div", "cal-event-note", e.note));
+      detailEl.appendChild(box);
+    });
   }
 
   function render(focus) {
@@ -703,8 +700,8 @@
       renderUpcoming();
     }
 
-    // "Saturday 26 September 2026" (weekday and date each kept whole when wrapping on phones)
-    var dayText = DAY_NAMES[t.getDay()];
+    // "Today, Saturday 26 September 2026" (weekday and date each kept whole when wrapping on phones)
+    var dayText = "Today, " + DAY_NAMES[t.getDay()];
     var dateText = t.getDate() + " " + MONTH_NAMES[t.getMonth()] + " " + t.getFullYear();
     if (clockDate.textContent !== dayText + " " + dateText) {
       clockDate.innerHTML = "";
